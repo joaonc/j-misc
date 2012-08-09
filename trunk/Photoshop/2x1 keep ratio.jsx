@@ -69,6 +69,10 @@ for (var i=0; i<fileDocs.length; i++) {
 	newDoc.paste()
 	newDoc.activeLayer.name = (i+1).toString() + "-" + fileDocs[i].name
 	
+	// Convert layer to smart object
+	var idnewPlacedLayer = stringIDToTypeID("newPlacedLayer")
+	executeAction(idnewPlacedLayer, undefined, DialogModes.NO);
+   
 	// Dont save anything we did
 	fileDocs[i].close(SaveOptions.DONOTSAVECHANGES)
 }
