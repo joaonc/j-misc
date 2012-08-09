@@ -69,7 +69,7 @@ for (var i=0; i<fileDocs.length; i++) {
 	newDoc.paste()
 	newDoc.activeLayer.name = (i+1).toString() + "-" + fileDocs[i].name
 	
-	// Don’t save anything we did
+	// DonÂ’t save anything we did
 	fileDocs[i].close(SaveOptions.DONOTSAVECHANGES)
 }
 
@@ -77,7 +77,8 @@ for (var i=0; i<fileDocs.length; i++) {
 var x = 0
 activeDocument = newDoc
 for (var i=0; i<newDoc.artLayers.length; i++) {
-	var layer = newDoc.artLayers[i]
+	// Last layer created has the lowest index
+	var layer = newDoc.artLayers[newDoc.artLayers.length-i-1]
 	newDoc.activeLayer = layer
 	var bounds = layer.bounds
 	
