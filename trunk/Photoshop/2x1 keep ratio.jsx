@@ -1,5 +1,5 @@
 // This script aligns two images side by side to a fixed width and variable height
-// keeping the aspect ratio of both
+// Keeps aspect ratio of both images
 //
 // By Joao Coelho, July 7, 2012
 //
@@ -10,9 +10,7 @@
 var W = 750 // final width in pixels
 var D = 6   // distance between images in pixels
 
-var debug = false
-
-// Files to open
+// Files to open:  1: left file, 2: right file
 // NOTE: The ExtendScript File object expects Universal Resource Identifier (URI) notation. See the JavaScript Tools Guide for more information.
 var fileNames = ["/C/Users/Public/Shared/Documents/Posts/1.jpg", "/C/Users/Public/Shared/Documents/Posts/2.jpg"];
 var newFileName = prompt("Filename (cancel for default)", "")
@@ -34,7 +32,6 @@ var h = []
 var fileDocs = []
 // Open files and get dimensions
 for (var i=0; i<fileNames.length; i++) {
-	if (debug) { alert("File " + (i+1) + ": " + fileNames[i]) }
 	var file = File(fileNames[i])
 	open(file)
 	fileDocs.push(activeDocument)
@@ -56,8 +53,6 @@ var hFinal = wFinal[0]*h[0]/w[0]
 // Create new document
 var newDoc = documents.add(W, hFinal, 72, newFileName, NewDocumentMode.RGB, DocumentFill.TRANSPARENT, 1)
 for (var i=0; i<fileDocs.length; i++) {
-	if (debug) { alert("Working with file " + (i+1) + ": " + fileDocs[i].name) }
-	
 	// Flatten the document so we get everything and then copy
 	activeDocument = fileDocs[i]
 	fileDocs[i].flatten()
@@ -73,7 +68,7 @@ for (var i=0; i<fileDocs.length; i++) {
 	var idnewPlacedLayer = stringIDToTypeID("newPlacedLayer")
 	executeAction(idnewPlacedLayer, undefined, DialogModes.NO);
    
-	// Dont save anything we did
+	// Close file opened without saving any changes
 	fileDocs[i].close(SaveOptions.DONOTSAVECHANGES)
 }
 
@@ -85,8 +80,6 @@ for (var i=0; i<newDoc.artLayers.length; i++) {
 	var layer = newDoc.artLayers[newDoc.artLayers.length-i-1]
 	newDoc.activeLayer = layer
 	var bounds = layer.bounds
-	
-	if (debug) { alert(bounds.toString()) }
 	
 	layer.resize(wFinal[i]*100/(bounds[2]-bounds[0]), hFinal*100/(bounds[3]-bounds[1]), AnchorPosition.TOPLEFT)
 	bounds = layer.bounds
